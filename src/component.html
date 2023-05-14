@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button>Start app</button>
+
+    <h1>Note is: null</h1>
+
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+
+    <script>
+      const socket = io();
+      const h1 = document.querySelector("h1");
+      const button = document.querySelector("button");
+      let ok = false;
+
+      button.onclick = () => {
+        ok = true;
+      };
+
+      socket.on("sending note", (note) => {
+        console.log(note);
+        h1.innerText = "Current note: " + note;
+
+        if (ok) {
+          const osc = new Tone.Oscillator(note, "sine").toDestination().start();
+        }
+      });
+    </script>
+  </body>
+</html>
